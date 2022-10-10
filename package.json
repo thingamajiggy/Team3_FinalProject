@@ -1,7 +1,6 @@
 {
   "name": "final-project",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon listen.js",
@@ -12,11 +11,21 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.5"
   },
   "devDependencies": {
+    "jest": "^29.1.2",
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thingamajiggy/Team3_FinalProject.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thingamajiggy/Team3_FinalProject/issues"
+  },
+  "homepage": "https://github.com/thingamajiggy/Team3_FinalProject#readme",
+  "description": ""
 }
