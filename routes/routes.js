@@ -1,14 +1,12 @@
 const express = require("express");
-const Customer = require("./customer");
-const Components = require("./components");
-const Supplier = require("./supplier");
+const Customer = require("../models/customer");
+const Components = require("../models/components");
+const Supplier = require("../models/supplier");
 
 const router = express.Router();
 
 //POSTS
-
 router.post("/customer/", (req, res) => {
-
   const { name, phoneNumber, orderDate, furnitureOrder } = req.body;
 
   const customer = new Customer({
@@ -20,6 +18,7 @@ router.post("/customer/", (req, res) => {
 
   try {
     const dataToSave = customer.save();
+
     res.status(200).json(dataToSave);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -60,7 +59,7 @@ router.post("/components/", (req, res) => {
   try {
     const dataToSave = components.save();
 
-    res.status(201).json(dataToSave);
+    res.status(200).json(dataToSave);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -120,37 +119,7 @@ router.get("/components/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 //PATCH
 
-router.patch('/components/:id', async (req, res) => {
-  try {
-      const id = req.params.id;
-      const updatedData = req.body;
-      const options = { new: true };
-
-      const result = await Model.findByIdAndUpdate(
-          id, updatedData, options
-      )
-
-      res.send(result)
-  }
-  catch (error) {
-      res.status(400).json({ message: error.message })
-  }
-})
-
 //DELETE
-
-router.delete('/components/:id', async (req, res) => {
-  try {
-      const id = req.params.id;
-      const data = await Model.findByIdAndDelete(id)
-      res.send(`Document with ${data.id} has been deleted..`)
-  }
-  catch (error) {
-      res.status(400).json({ message: error.message })
-  }
-})
-
 module.exports = router;
