@@ -3,7 +3,7 @@ const Order = require("./order");
 const Components = require("./components");
 const router = express.Router();
 
-router.post("/components/", (req, res) => {
+router.post("/components/", async (req, res) => {
   const { component, stockLevel, triggerPoint } = req.body;
 
   const components = new Components({
@@ -13,7 +13,7 @@ router.post("/components/", (req, res) => {
   });
 
   try {
-    const dataToSave = components.save();
+    const dataToSave = await components.save();
     res.status(201).json(dataToSave);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -66,7 +66,7 @@ router.delete('/components/:id', async (req, res) => {
   }
 })
 
-router.post("/order/", (req, res) => {
+router.post("/order/", async (req, res) => {
   const { product, quantity } = req.body;
 
   const orders = new Order({
@@ -75,7 +75,7 @@ router.post("/order/", (req, res) => {
   });
 
   try {
-    const dataToSave = orders.save();
+    const dataToSave = await orders.save();
     res.status(201).json(dataToSave);
   } catch (err) {
     res.status(400).json({ message: err.message });
