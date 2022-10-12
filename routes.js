@@ -5,10 +5,9 @@ const Supplier = require("./supplier");
 const router = express.Router();
 
 router.post("/components/", (req, res) => {
-  const { id, component, stockLevel, triggerPoint } = req.body;
+  const { component, stockLevel, triggerPoint } = req.body;
 
   const components = new Components({
-    id,
     component,
     stockLevel,
     triggerPoint,
@@ -16,7 +15,6 @@ router.post("/components/", (req, res) => {
 
   try {
     const dataToSave = components.save();
-
     res.status(201).json(dataToSave);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -43,29 +41,29 @@ router.get("/components/:id", async (req, res) => {
 
 router.patch('/components/:id', async (req, res) => {
   try {
-      const id = req.params.id;
-      const updatedData = req.body;
-      const options = { new: true };
+    const id = req.params.id;
+    const updatedData = req.body;
+    const options = { new: true };
 
-      const result = await Model.findByIdAndUpdate(
-          id, updatedData, options
-      )
+    const result = await Components.findByIdAndUpdate(
+      id, updatedData, options
+    )
 
-      res.send(result)
+    res.status(201).send(result)
   }
   catch (error) {
-      res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message })
   }
 })
 
 router.delete('/components/:id', async (req, res) => {
   try {
-      const id = req.params.id;
-      const data = await Model.findByIdAndDelete(id)
-      res.send(`Document with ${data.id} has been deleted..`)
+    const id = req.params.id;
+    const data = await Components.findByIdAndDelete(id)
+    res.send(`Document with ${data.id} has been deleted..`)
   }
   catch (error) {
-      res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message })
   }
 })
 

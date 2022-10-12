@@ -16,19 +16,18 @@ afterEach(async () => {
 //CREATE-POST
 describe('POST /components', () => {
   it('should create a new component', async () => {
-    const id = 100;
     const component = {
-      id,
       component: 'swallow-tail drawer back',
       stockLevel: 24,
       triggerPoint: 12,
     }
     jest.spyOn(Components.prototype, 'save')
       .mockImplementationOnce(() => component)
+
     const res = await request(app).post('/api/components').send();
+
     expect(res.statusCode).toBe(201);
     expect(res.body.component).toBe(component.component);
-    expect(res.body).hasOwnProperty(id);
   });
 });
 
@@ -38,7 +37,7 @@ describe('GET /components', () => {
     const res = await request(app).get('/api/components');
     expect(res.statusCode).toBe(200);
     expect(res.body).toBeInstanceOf(Array);
-    expect(res.body[1]).toBeInstanceOf(Object);
+    expect(res.body[0]).toBeInstanceOf(Object);
     expect(res.body.length).toBeGreaterThan(0);
   });
 });
@@ -91,7 +90,7 @@ describe('PATCH /components/:id', () => {
 describe('DELETE /api/components/:id', () => {
   it('should delete a product', async () => {
     const id = 2
-    const findByIdAndDeleteSpy = jest.spyOn(Components, ‘findByIdAndDelete’);
+    const findByIdAndDeleteSpy = jest.spyOn(Components, 'findByIdAndDelete');
     findByIdAndDeleteSpy.mockImplementation(() => ({ id }))
     const res = await request(app).delete(`/api/components/${id}`);
     expect(res.statusCode).toBe(200);
