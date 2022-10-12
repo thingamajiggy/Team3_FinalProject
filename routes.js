@@ -69,7 +69,7 @@ router.delete('/components/:id', async (req, res) => {
 router.post("/order/", (req, res) => {
   const { product, quantity } = req.body;
 
-  const orders = new Components({
+  const orders = new Order({
     product,
     quantity,
   });
