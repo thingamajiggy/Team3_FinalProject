@@ -1,72 +1,44 @@
 const express = require("express");
-const Customer = require("./customer");
-const Components = require("./components");
-const Supplier = require("./supplier");
 const router = express.Router();
 
-router.post("/components/", (req, res) => {
-  const { id, component, stockLevel, triggerPoint } = req.body;
+const ComponentsController = require("./controllers/Components-controller");
 
-  const components = new Components({
-    id,
-    component,
-    stockLevel,
-    triggerPoint,
-  });
+const OrdersController = require("./controllers/Orders-controller");
 
-  try {
-    const dataToSave = components.save();
+const ProductsController = require("./controllers/Products-controller");
 
-    res.status(201).json(dataToSave);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+router.post("/components/create", ComponentsController.createComponents);
 
-router.get("/components/", async (req, res) => {
-  try {
-    const data = await Components.find();
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.get("/components/getAll", ComponentsController.getAllComponents);
 
-router.get("/components/:id", async (req, res) => {
-  try {
-    const data = await Components.findById(req.params.id);
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.get("/components/:id", ComponentsController.getComponentById);
 
-router.patch('/components/:id', async (req, res) => {
-  try {
-      const id = req.params.id;
-      const updatedData = req.body;
-      const options = { new: true };
+router.patch("/components/:id", ComponentsController.updateComponentById);
 
-      const result = await Model.findByIdAndUpdate(
-          id, updatedData, options
-      )
+router.delete("/components/:id", ComponentsController.deleteComponentById);
 
-      res.send(result)
-  }
-  catch (error) {
-      res.status(400).json({ message: error.message })
-  }
-})
+// Orders Routes
 
-router.delete('/components/:id', async (req, res) => {
-  try {
-      const id = req.params.id;
-      const data = await Model.findByIdAndDelete(id)
-      res.send(`Document with ${data.id} has been deleted..`)
-  }
-  catch (error) {
-      res.status(400).json({ message: error.message })
-  }
-})
+router.post("/orders/create", OrdersController.createOrders);
+
+router.get("/orders/getAll", OrdersController.getAllOrders);
+
+router.get("/orders/:id", OrdersController.getOrderById);
+
+router.patch("/orders/:id", OrdersController.updateOrderById);
+
+router.delete("/orders/:id", OrdersController.deleteOrderById);
+
+//Products Routes
+
+router.post("/products/create", ProductsController.createProducts);
+
+router.get("/products/getAll", ProductsController.getAllProducts);
+
+router.get("/products/:id", ProductsController.getProductById);
+
+router.patch("/products/:id", ProductsController.updateProductById);
+
+router.delete("/products/:id", ProductsController.deleteProductById);
 
 module.exports = router;
