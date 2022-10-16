@@ -35,6 +35,7 @@ router.get("/components/", async (req, res) => {
 });
 
 router.get("/components/:id", async (req, res) => {
+
   try {
     const data = await Components.findById(req.params.id);
     res.json(data);
@@ -144,10 +145,11 @@ router.delete('/order/:id', async (req, res) => {
 })
 
 router.post("/product/", async (req, res) => {
+
   const { productName, components } = req.body;
 
   try {
-    components.map(({ componentId, component, quantity }) => {
+    components.forEach(({ componentId, component, quantity }) => {
 
       const productConnectedTocomponent = Components.findById(componentId);
 
@@ -163,9 +165,11 @@ router.post("/product/", async (req, res) => {
       productName,
       components,
     });
+
     const dataToSave = await product.save();
     res.status(201).json(dataToSave);
   }
+
   catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -174,6 +178,18 @@ router.post("/product/", async (req, res) => {
 router.get("/product/", async (req, res) => {
   try {
     const data = await Product.find();
+    res.json(data);
+  }
+
+  catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/product/:id", async (req, res) => {
+
+  try {
+    const data = await Product.findById(req.params.id);
     res.json(data);
   }
 
@@ -197,12 +213,12 @@ router.patch('/product/:id', async (req, res) => {
   catch (error) {
     res.status(400).json({ message: error.message })
   }
-
-})
+});
 
 router.delete('/product/:id', async (req, res) => {
   try {
     const id = req.params.id;
+    console.log
     const data = await product.findByIdAndDelete(id)
     res.send(`Document with ${data.id} has been deleted..`)
   }
@@ -210,7 +226,6 @@ router.delete('/product/:id', async (req, res) => {
   catch (error) {
     res.status(400).json({ message: error.message })
   }
-
-})
+});
 
 module.exports = router;
